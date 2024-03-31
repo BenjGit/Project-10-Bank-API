@@ -1,0 +1,28 @@
+.edit-form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.form-content {
+    justify-content: center;
+    display: flex;
+    gap: 20px;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cancel-button{  
+    width:70px
+}
+
+.save-button{  
+    width:70px
+}
