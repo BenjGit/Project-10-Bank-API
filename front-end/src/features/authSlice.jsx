@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk  } from '@reduxjs/toolkit';
 import { login, fetchUserProfile, updateUserProfile } from '../../services/api';
+import { useDispatch } from "react-redux"
 
-export const fetchUserThunk = createAsyncThunk(
-    'auth/fetchUser',
-    async (token, { rejectWithValue }) => {
+export const fetchUserThunk = createAsyncThunk('auth/fetchUser', async (token, { rejectWithValue }) => {
       try {
         const data = await fetchUserProfile(token);
         return data;
@@ -19,11 +18,14 @@ export const loginUserThunk = createAsyncThunk('auth/loginUser', async ({ email,
   }
 );
 
-export const updateUserThunk = createAsyncThunk('auth/updateUser', async ({ token, firstName, lastName }) => {
-    const res = await updateUserProfile( token, firstName, lastName );
+export const updateUserThunk = createAsyncThunk('auth/updateUser', async ({token, firstName, lastName}, { rejectWithValue, dispatch }) => {
+  try {
+    const res = await updateUserProfile({token, firstName, lastName})
     return res;
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
-)
+});
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -65,4 +67,4 @@ export const authSlice = createSlice({
     }
 })
 
-export const { logout } = authSlice.actions;
+export const { logout} = authSlice.actions;

@@ -1,0 +1,12 @@
+.error-message {
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 5px;
+    color: rgb(180, 54, 32);
+}
+
+.close-modal {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

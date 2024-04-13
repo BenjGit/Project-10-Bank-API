@@ -57,6 +57,111 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/{accountId}/transactions:
+    get:
+      tags:
+        - Transactions
+      summary: User Transactions API
+      description: retrieve transactions linked to user's account for the current month
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: path
+          name: accountId
+          required: true
+          type: integer
+          description: The unique id for the account 
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transactions retrieved successfully
+          schema:
+            $ref: '#/definitions/Transactions'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized (user not logged in)
+        '500':
+          description: Internal Server Error
+  /user/{accountId}/transactions/{transactionId}:
+    get:
+      tags:
+        - Transactions
+      summary: User Transaction Details API
+      description: API to retrieve transaction details for a specific transaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          type: integer
+          description: The unique id for the transaction
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: path
+          name: accountId
+          required: true
+          type: integer
+          description: The unique id for the account
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction details retrieved successfully
+          schema:
+            $ref: '#/definitions/TransactionDetailsResponse'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized (user not logged in)
+        '500':
+          description: Internal Server Error
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions
+      summary: User Transaction Details API
+      description: API for updating a user transaction category and notes
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          type: integer
+          description: The unique id for the transaction
+        - in: path
+          name: accountId
+          required: true
+          type: integer
+          description: The unique id for the account
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update user transaction category and notes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionDetails'
+      responses:
+        '200':
+          description: User transaction details retrieved successfully
+          schema:
+            $ref: '#/definitions/TransactionDetailsResponse'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized (user not logged in)
+        '500':
+          description: Internal Server Error
   /user/profile:
     post:
       security:
@@ -70,6 +175,7 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
       produces:
         - application/json
       responses:
@@ -79,6 +185,8 @@ paths:
             $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Fields
+        '401':
+          description: Unauthorized (user not logged in)
         '500':
           description: Internal Server Error
     put:
@@ -93,6 +201,7 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: body
           name: body
           description: Update user profile attributes
@@ -108,6 +217,8 @@ paths:
             $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Fields
+        '401':
+          description: Unauthorized (user not logged in)
         '500':
           description: Internal Server Error
 securityDefinitions:
@@ -152,6 +263,42 @@ definitions:
             type: string
           email:
             type: string
+  Transactions:
+    type: object
+    properties:
+      transactionId:
+        type: integer
+      accountId:
+        type: integer
+      date:
+        type: string
+        format: date
+      balance:
+        type: number
+        format: double
+      amount:
+        type: number
+        format: double
+      description:
+        type: string
+  TransactionDetails:
+    type: object
+    properties:
+      category:
+        type: string
+      notes:
+        type: string
+  TransactionDetailsResponse:
+    type: object
+    properties:
+      transactionId:
+        type: integer
+      transactionType:
+        type: string
+      category:
+        type: string
+      notes:
+        type: string
   LoginResponse:
     type: object
     properties:

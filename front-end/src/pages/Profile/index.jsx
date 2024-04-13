@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { updateUserThunk } from "../../features/authSlice";
 import './style.css'
 import { useEffect, useState } from "react";
-
+import Header from "../../components/Header";
 
 
 
@@ -16,19 +16,22 @@ const Profile = () => {
 
   useEffect(() => {
     if(userData && userData.body) {
-      setFirstName(userData.body.firstName);
-      setLastName(userData.body.lastName);
+      if (!firstName) {
+        setFirstName(userData.body.firstName);//initialiser les valeurs de base du nom et prénom pour afficher le nom et prénom sur la page avant les modif
+      }
+      if (!lastName) {
+        setLastName(userData.body.lastName);
+      }
     }
   }, [userData]);
 
-  console.log(firstName)
   const updateProfile = async () => {
     setEditMode(true)
   };
   
   const handleSave = async (e) => {
     e.preventDefault();
-    dispatch(updateUserThunk( token, firstName, lastName))
+    dispatch(updateUserThunk({token: token, firstName, lastName}));
     setEditMode(false);
   }
 
