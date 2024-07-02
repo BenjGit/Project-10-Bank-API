@@ -1,27 +1,26 @@
-import Home from './pages/Home'
-import { Layout } from './components/Layout';
-import { createBrowserRouter} from 'react-router-dom'
-import Login from './pages/Login';
-import Profile from './pages/Profile';
-import { PrivateProfileRoute } from './privateRoute';
+import { createHashRouter } from "react-router-dom";
+import { Layout } from "./components/Layout";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import { PrivateProfileRoute } from "./privateRoute";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     element: <Layout />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Home />,
       },
       {
-        path: '/login',
+        path: "/login",
         element: <Login />,
       },
       {
-        path: '/profile',
-        element:  <PrivateProfileRoute element={<Profile />} />,
+        path: "/profile",
+        element: <PrivateProfileRoute element={<Profile />} />,
       },
     ],
   },
-])
-
+]);

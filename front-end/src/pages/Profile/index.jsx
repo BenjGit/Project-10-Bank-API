@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { updateUserThunk } from "../../features/authSlice";
 import './style.css'
 import { useEffect, useState } from "react";
-import Header from "../../components/Header";
 
 
 
@@ -36,8 +35,9 @@ const Profile = () => {
   }
 
   const handleCancel = () => {
-    setFirstName(userData.body.firstName);
-    setLastName(userData.body.lastName);
+    !firstName ? setFirstName(userData.body.firstName) : setFirstName(userData.firstName)
+    !lastName ? setLastName(userData.body.lastName) : setLastName(userData.lastName)
+
     setEditMode(false);
   }
 
